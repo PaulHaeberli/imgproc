@@ -79,4 +79,4 @@ you can also process .qoim movies like this:
 	imgproc in.qoim out.qoim zoom 0.5 0.5 perhist 0.01 0.99 enlighten 20.0 0.9 saturate 1.5
 
 
-[single-file libraries for C/C++](https://github.com/nothings/stb) - One of the best things for c and c++ ever.
+[Single-file libraries for C/C++](https://github.com/nothings/stb) - One of the best things for c and c++ ever.
