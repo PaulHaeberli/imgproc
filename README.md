@@ -5,6 +5,14 @@ This uses the [QOI image format](https://github.com/phoboslab/qoi) to read and w
 
 This also uses the [QOImovie](https://github.com/PaulHaeberli/QOImovie) to read and write losslessly compressed image sequences.
 
+to make
+    
+    % make 
+    
+to test it
+
+    % make test
+
 usage: imgproc in.img out.img process1 process2 process3 ...
 
 	[zoom xscale yscale]      zoom 1.5 1.5
