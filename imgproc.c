@@ -1,6 +1,6 @@
 /*
 
-qoimproc - process qoimmovie files
+imgproc - process qoimmovie files
 
 Paul Haeberli - https://twitter.com/GraficaObscura
 
@@ -1012,10 +1012,7 @@ int main(int argc, char **argv)
 {
     if(argc<5) {
         fprintf(stderr,"\n");
-        fprintf(stderr,"jpg  usage: qoimproc in.jpg out.jpg\n");
-        fprintf(stderr,"png  usage: qoimproc in.png out.png\n");
-        fprintf(stderr,"qoi  usage: qoimproc in.qoi out.qoi\n");
-        fprintf(stderr,"qoim usage: qoimproc in.qoim out.qoim\n");
+        fprintf(stderr,"usage: imgproc in.img out.img\n");
         fprintf(stderr,"\t[zoom xscale yscale]      zoom 1.5 1.5\n");
         fprintf(stderr,"\t[zoomtosize sizex sizey]  zoomtosize 640 480\n");
         fprintf(stderr,"\t[saturate sat]            saturate 1.5\n");
@@ -1029,16 +1026,16 @@ int main(int argc, char **argv)
         fprintf(stderr,"\t[chromablur smalldiam]    chromablur 20\n");
         fprintf(stderr,"\n");
         fprintf(stderr,"ops can be chained like this:\n");
-        fprintf(stderr,"\tqoimproc in.jpg out.jpg zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
+        fprintf(stderr,"\timgproc in.jpg out.jpg zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
         fprintf(stderr,"\n");
         fprintf(stderr,"you can also process .png images like this:\n");
-        fprintf(stderr,"\tqoimproc in.png out.png zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
+        fprintf(stderr,"\timgproc in.png out.png zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
         fprintf(stderr,"\n");
         fprintf(stderr,"you can also process .qoi images like this:\n");
-        fprintf(stderr,"\tqoimproc in.qoi out.qoi zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
+        fprintf(stderr,"\timgproc in.qoi out.qoi zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
         fprintf(stderr,"\n");
         fprintf(stderr,"you can also process .qoim movies like this:\n");
-        fprintf(stderr,"\tqoimproc in.qoim out.qoim zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
+        fprintf(stderr,"\timgproc in.qoim out.qoim zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
         fprintf(stderr,"\n");
         exit(1);
     }
@@ -1073,17 +1070,17 @@ int main(int argc, char **argv)
         doprocess(can_in, argc, argv);
         qoim_canvas_toqoi(can_in, argv[2]);
     } else {
-        fprintf(stderr,"qoimproc: strange file names\n");
+        fprintf(stderr,"imgproc: strange file names\n");
         fprintf(stderr,"input and output files must be of the same type\n");
-        fprintf(stderr,".png and .qoim files are supported\n");
+        fprintf(stderr,".jpeg .png and .qoim files are supported\n");
         fprintf(stderr,"\n");
-        fprintf(stderr,"\tqoimproc in.jpg out.jpg zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
+        fprintf(stderr,"\timgproc in.jpg out.jpg zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
         fprintf(stderr,"\n");
-        fprintf(stderr,"\tqoimproc in.png out.png zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
+        fprintf(stderr,"\timgproc in.png out.png zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
         fprintf(stderr,"\n");
-        fprintf(stderr,"\tqoimproc in.qoi out.qoi zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
+        fprintf(stderr,"\timgproc in.qoi out.qoi zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
         fprintf(stderr,"\n");
-        fprintf(stderr,"\tqoimproc in.qoim out.qoim zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
+        fprintf(stderr,"\timgproc in.qoim out.qoim zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9\n");
         fprintf(stderr,"\n");
     }
     exit(0);
