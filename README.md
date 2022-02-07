@@ -27,14 +27,18 @@ usage: imgproc in.img out.img process1 process2 process3 ...
 
 
 ops can be chained like this:
+
 	imgproc in.jpg out.jpg zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
 
 you can also process .png images like this:
+
 	imgproc in.png out.png zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
 
 you can also process .qoi images like this:
+
 	imgproc in.qoi out.qoi zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
 
 you can also process .qoim movies like this:
+
 	imgproc in.qoim out.qoim zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
 
