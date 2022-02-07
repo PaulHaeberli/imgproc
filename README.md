@@ -1,7 +1,8 @@
 # imgproc
 Process jpeg, png, qoi images files.  Can also process qiom movie files
 
-usage: improc in.img out.img
+usage: imgproc in.img out.img process1 process2 process3 ...
+
 	[zoom xscale yscale]      zoom 1.5 1.5
   
 	[zoomtosize sizex sizey]  zoomtosize 640 480
@@ -26,14 +27,14 @@ usage: improc in.img out.img
 
 
 ops can be chained like this:
-	qoimproc in.jpg out.jpg zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
+	imgproc in.jpg out.jpg zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
 
 you can also process .png images like this:
-	qoimproc in.png out.png zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
+	imgproc in.png out.png zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
 
 you can also process .qoi images like this:
-	qoimproc in.qoi out.qoi zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
+	imgproc in.qoi out.qoi zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
 
 you can also process .qoim movies like this:
-	qoimproc in.qoim out.qoim zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
+	imgproc in.qoim out.qoim zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
 
