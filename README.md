@@ -1,6 +1,10 @@
 # imgproc
 Process jpeg, png, qoi images files.  Can also process qiom movie files
 
+This uses the [QOI image format](https://github.com/phoboslab/qoi) to read and write losslessly compressed images.
+
+This also uses the [QOImovie](https://github.com/PaulHaeberli/QOImovie) to read and write losslessly compressed image sequences.
+
 usage: imgproc in.img out.img process1 process2 process3 ...
 
 	[zoom xscale yscale]      zoom 1.5 1.5
