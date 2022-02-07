@@ -8,26 +8,48 @@ This also uses the [QOImovie](https://github.com/PaulHaeberli/QOImovie) to read 
 usage: imgproc in.img out.img process1 process2 process3 ...
 
 	[zoom xscale yscale]      zoom 1.5 1.5
+	
+	    resize the image in x and y
   
 	[zoomtosize sizex sizey]  zoomtosize 640 480
+	
+	    resize an image to a specific size
   
 	[saturate sat]            saturate 1.5
+	
+	    saturate colors in images
   
 	[sharpen smalldiam mag]   sharpen 30.0 0.5
+	
+	    unsharp masking 
   
 	[softfocus smalldiam mag] softfocus 10.0 0.5
+	
+	    blending the original image with a blurred copy
   
 	[enlighten smalldiam mag] enlighten 20.0 0.9
+	
+	    fix high contrast image by brightening just the dark parts
   
 	[perhist min max]         perhist 0.01 0.99
+	
+	    percent histogram equalization. These option force at least 1% into black and al least 1% to white
   
 	[expand min max]          expand 0.2 0.8
+	
+	    expand the contrast on images. level 0.2 gets maped to black. 0.8 and above maps to white
   
 	[gammawarp pow]           gammawarp 0.4
+	
+	    adjust the gamma of an image
   
 	[scalergb r g b]          scalergb 0.9 1.1 1.2
+	
+	    scale rred, green and blue
   
 	[chromablur smalldiam]    chromablur 20
+	
+	    blur the chroma in an image
 
 
 ops can be chained like this:
