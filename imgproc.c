@@ -1,6 +1,6 @@
 /*
 
-imgproc - process qoimmovie files
+imgproc - process png, jpg, qoi, and qoim movie files
 
 Paul Haeberli - https://twitter.com/GraficaObscura
 
