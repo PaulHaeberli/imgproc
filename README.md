@@ -1,5 +1,5 @@
 # imgproc
-Process jpeg, png, qoi images files.  Can also process qiom movie files
+Process jpeg, png, qoi images files.  This can also process qiom movie files
 
 This uses the [QOI image format](https://github.com/phoboslab/qoi) to read and write losslessly compressed images.
 
