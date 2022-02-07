@@ -42,3 +42,5 @@ you can also process .qoim movies like this:
 
 	imgproc in.qoim out.qoim zoom 0.5 0.5 saturate 1.5 expand 0.1 0.9
 
+More description coming soon.
+
