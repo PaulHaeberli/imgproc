@@ -93,7 +93,7 @@ usage: imgproc in.img out.img process1 process2 process3 ...
 	    forces the aspect ratio on the image by cropping the edges
 
 
-these options can be used with gom movie files
+these options can be used with qom movie files
 
         [fadeinout nframes]          fadeinout 20
         
