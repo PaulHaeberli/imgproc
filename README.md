@@ -85,7 +85,23 @@ usage: imgproc in.img out.img process1 process2 process3 ...
 
         [softedge width]            softedge 0.05
         
-            adds a soft edge to the image. Width is specified as a fraction of image diameter. 
+            adds a soft edge to the image. Width is specified as a fraction of image diameter
+
+
+        [setaspect aspect]          setaspect 1.0
+        
+	    forces the aspect ratio on the image by cropping the edges
+
+
+these options can be used with gom movie files
+
+        [fadeinout nframes]          fadeinout 20
+        
+	    make the movie fade in and out
+
+        [blurinout nframes]          blurinout 20
+        
+	    make the movie blur in and out
 
 
 ops can be chained like this:

@@ -13,8 +13,8 @@ clean:
 	mkdir tmp
 
 test:
-	./imgproc testimages/INPUT070.png tmp/PROC.png saturate 1.2 roundcorners 0.1 3.0
-	open tmp/PROC.png
+	./imgproc testimages/INPUT070.png tmp/PROC.png zoom 0.5 0.5 setaspect 3.0 roundcorners 0.1 3.0
+	open testimages/INPUT070.png tmp/PROC.png
 
 testqom:
 	./qomutil -toqom testimages/* tmp/IN.qom
