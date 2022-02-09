@@ -3,15 +3,17 @@ Process jpeg, png, qoi images files.  This can also process qiom movie files
 
 This uses the [QOI image format](https://github.com/phoboslab/qoi) to read and write losslessly compressed images.
 
-This also uses the [QOImovie](https://github.com/PaulHaeberli/QOImovie) to read and write losslessly compressed image sequences.
-
 to make 
     
     % make 
     
-to test it
+to test processing png
 
     % make test
+
+to test processing qoim movies
+
+    % make testqoim
 
 usage: imgproc in.img out.img process1 process2 process3 ...
 

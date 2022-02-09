@@ -40,8 +40,8 @@ SOFTWARE.
 #include "qoi.h"
 #define QOIM_IMPLEMENTATION
 #include "qoim.h"
-#define QOIMPROC_IMPLEMENTATION
-#include "qoimproc.h"
+#define IMGPROC_IMPLEMENTATION
+#include "imgproc.h"
 
 #define FILT_ZOOM               ( 0)
 #define FILT_ZOOMTOSIZE         ( 1)
@@ -60,65 +60,70 @@ SOFTWARE.
 
 /* qoimfilter */
 
-void qoimfilter(qoim_canvas *can_in, int filtmode, float arg1, float arg2, float arg3, float arg4, float arg5) 
+void qoimfilter(gfx_canvas *can_in, int filtmode, float arg1, float arg2, float arg3, float arg4, float arg5) 
 {
-    qoim_canvas *temp;
+    gfx_canvas *temp;
     switch(filtmode) {
         case FILT_ZOOM:
-            temp = qoim_canvas_zoom(can_in, arg1, arg2);
-            qoim_canvas_swap(can_in, temp);
-            qoim_canvas_free(temp);
+            temp = gfx_canvas_zoom(can_in, arg1, arg2);
+            gfx_canvas_swap(can_in, temp);
+            gfx_canvas_free(temp);
             break;
         case FILT_ZOOMTOSIZE:
-            temp = qoim_canvas_zoom_to_size(can_in, arg1, arg2);
-            qoim_canvas_swap(can_in, temp);
-            qoim_canvas_free(temp);
+            temp = gfx_canvas_zoom_to_size(can_in, arg1, arg2);
+            gfx_canvas_swap(can_in, temp);
+            gfx_canvas_free(temp);
             break;
         case FILT_SATURATE:
-            qoim_canvas_saturate(can_in, arg1);
+            gfx_canvas_saturate(can_in, arg1);
             break;
         case FILT_SHARPEN:
-            qoim_canvas_sharpen(can_in, arg1, arg2);
+            gfx_canvas_sharpen(can_in, arg1, arg2);
             break;
         case FILT_SOFTFOCUS:
-            qoim_canvas_softfocus(can_in, arg1, arg2);
+            gfx_canvas_softfocus(can_in, arg1, arg2);
             break;
         case FILT_ENLIGHTEN:
-            temp = qoim_canvas_enlighten(can_in, arg1, arg2);
-            qoim_canvas_swap(can_in, temp);
-            qoim_canvas_free(temp);
+            temp = gfx_canvas_enlighten(can_in, arg1, arg2);
+            gfx_canvas_swap(can_in, temp);
+            gfx_canvas_free(temp);
             break;
         case FILT_PERHIST:
-            qoim_canvas_perhist(can_in, arg1, arg2);
+            gfx_canvas_perhist(can_in, arg1, arg2);
             break;
         case FILT_EXPAND:
-            qoim_canvas_expand(can_in, arg1, arg2);
+            gfx_canvas_expand(can_in, arg1, arg2);
             break;
         case FILT_GAMMAWARP:
-            qoim_canvas_gammawarp(can_in, arg1);
+            gfx_canvas_gammawarp(can_in, arg1);
             break;
         case FILT_SCALERGB:
-            qoim_canvas_scalergb(can_in, arg1, arg2, arg3);
+            gfx_canvas_scalergb(can_in, arg1, arg2, arg3);
             break;
         case FILT_CHROMABLUR:
-            qoim_canvas_chromablur(can_in, arg1);
+            gfx_canvas_chromablur(can_in, arg1);
             break;
         case FILT_FRAME:
-            qoim_canvas_addframe(can_in, arg1, arg2, arg3, arg4, arg5);
+            gfx_canvas_addframe(can_in, arg1, arg2, arg3, arg4, arg5);
             break;
         case FILT_ROUNDCORNERS:
-            qoim_canvas_roundcorners(can_in, arg1, arg2);
+            gfx_canvas_roundcorners(can_in, arg1, arg2);
             break;
         case FILT_SOFTEDGE:
-            qoim_canvas_softedge(can_in, arg1);
+            gfx_canvas_softedge(can_in, arg1);
             break;
     }
 }
 
 #define NOARG   (0.0)
 
-void doprocess(qoim_canvas *can_in, int argc, char **argv)
+void doprocess(gfx_canvas *can_in, int argc, char **argv, int frameno, int nframes)
 {
+    int movie;
+    if(nframes == 0)
+        movie = 0;
+    else
+        movie = 1;
     for(int i=3; i<argc; i++) {
         if(strcmp(argv[i],"zoom") == 0) {
             if((i+2) >= argc) { 
@@ -232,7 +237,7 @@ void doprocess(qoim_canvas *can_in, int argc, char **argv)
                     exit(1);
             }
             i++;
-            float width = atof(argv[i])*qoim_canvas_diameter(can_in);
+            float width = atof(argv[i])*gfx_canvas_diameter(can_in);
             if(width<1) width=1;
             i++;
             float r = atof(argv[i]);
@@ -249,7 +254,7 @@ void doprocess(qoim_canvas *can_in, int argc, char **argv)
                     exit(1);
             }
             i++;
-            float radius = atof(argv[i])*qoim_canvas_diameter(can_in);
+            float radius = atof(argv[i])*gfx_canvas_diameter(can_in);
             i++;
             float exp = atof(argv[i]);
             qoimfilter(can_in, FILT_ROUNDCORNERS, radius, exp, NOARG, NOARG, NOARG);
@@ -259,7 +264,7 @@ void doprocess(qoim_canvas *can_in, int argc, char **argv)
                     exit(1);
             }
             i++;
-            float width = atof(argv[i])*qoim_canvas_diameter(can_in);
+            float width = atof(argv[i])*gfx_canvas_diameter(can_in);
             qoimfilter(can_in, FILT_SOFTEDGE, width, NOARG, NOARG, NOARG, NOARG);
         } else {
             fprintf(stderr,"imgproc: strange option [%s]\n",argv[i]);
@@ -354,25 +359,25 @@ int main(int argc, char **argv)
         qoim *qm_out = qoim_open(argv[2], "w");
         for(int frameno = 0; frameno<qoim_getnframes(qm_in); frameno++) {
             int usec;
-            qoim_canvas *can_in = qoim_getframe(qm_in, frameno, &usec);
-            qoim_canvas *temp;
-            doprocess(can_in, argc, argv);
+            gfx_canvas *can_in = qoim_getframe(qm_in, frameno, &usec);
+            gfx_canvas *temp;
+            doprocess(can_in, argc, argv, frameno, qoim_getnframes(qm_in));
             qoim_putframe(qm_out, can_in, usec);
         }
         qoim_close(qm_in);
         qoim_close(qm_out);
     } else if(isjpegfilename(argv[1]) && isjpegfilename(argv[2])) {
-        qoim_canvas *can_in = qoim_canvas_fromjpeg(argv[1]);
-        doprocess(can_in, argc, argv);
-        qoim_canvas_tojpeg(can_in, argv[2]);
+        gfx_canvas *can_in = gfx_canvas_fromjpeg(argv[1]);
+        doprocess(can_in, argc, argv, 0, 0);
+        gfx_canvas_tojpeg(can_in, argv[2]);
     } else if(ispngfilename(argv[1]) && ispngfilename(argv[2])) {
-        qoim_canvas *can_in = qoim_canvas_frompng(argv[1]);
-        doprocess(can_in, argc, argv);
-        qoim_canvas_topng(can_in, argv[2]);
+        gfx_canvas *can_in = gfx_canvas_frompng(argv[1]);
+        doprocess(can_in, argc, argv, 0, 0);
+        gfx_canvas_topng(can_in, argv[2]);
     } else if(isqoifilename(argv[1]) && isqoifilename(argv[2])) {
-        qoim_canvas *can_in = qoim_canvas_fromqoi(argv[1]);
-        doprocess(can_in, argc, argv);
-        qoim_canvas_toqoi(can_in, argv[2]);
+        gfx_canvas *can_in = gfx_canvas_fromqoi(argv[1]);
+        doprocess(can_in, argc, argv, 0, 0);
+        gfx_canvas_toqoi(can_in, argv[2]);
     } else {
         fprintf(stderr,"imgproc: strange file names\n");
         fprintf(stderr,"input and output files must be of the same type\n");

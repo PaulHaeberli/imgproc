@@ -1,6 +1,6 @@
 /*
 
-qoimproc.h - process in memory pixels
+imgproc.h - process in memory pixels
 
 Paul Haeberli - https://twitter.com/GraficaObscura
 
@@ -27,13 +27,13 @@ SOFTWARE.
 
 -- Synopsis
 
-// Define `QOIMPROC_IMPLEMENTATION` in *one* C/C++ file before including this
+// Define `IMGPROC_IMPLEMENTATION` in *one* C/C++ file before including this
 // library to create the implementation.
 
-#define QOIMPROC_IMPLEMENTATION
-#include "qoimproc.h"
+#define IMGPROC_IMPLEMENTATION
+#include "imgproc.h"
 
-//  qoimproc
+//  imgproc
 //
 //
 //
@@ -59,76 +59,76 @@ SOFTWARE.
 /* -----------------------------------------------------------------------------
 Header - Public functions */
 
-#ifndef QOIMPROC_H
-#define QOIMPROC_H
+#ifndef IMGPROC_H
+#define IMGPROC_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-qoim_canvas *qoim_canvas_fromqoi(const char *filename);
-void qoim_canvas_toqoi(qoim_canvas *in, const char *filename);
+gfx_canvas *gfx_canvas_fromqoi(const char *filename);
+void gfx_canvas_toqoi(gfx_canvas *in, const char *filename);
 
-qoim_canvas *qoim_canvas_frompng(const char *filename);
-void qoim_canvas_topng(qoim_canvas *in, const char *filename);
+gfx_canvas *gfx_canvas_frompng(const char *filename);
+void gfx_canvas_topng(gfx_canvas *in, const char *filename);
 
-qoim_canvas *qoim_canvas_fromjpeg(const char *filename);
-void qoim_canvas_tojpeg(qoim_canvas *in, const char *filename);
+gfx_canvas *gfx_canvas_fromjpeg(const char *filename);
+void gfx_canvas_tojpeg(gfx_canvas *in, const char *filename);
 
-qoim_canvas *qoim_canvas_clone(qoim_canvas *c);
+gfx_canvas *gfx_canvas_clone(gfx_canvas *c);
 
-void qoim_canvas_swap(qoim_canvas *a, qoim_canvas *b);
+void gfx_canvas_swap(gfx_canvas *a, gfx_canvas *b);
 
-float qoim_canvas_diameter(qoim_canvas *in);
+float gfx_canvas_diameter(gfx_canvas *in);
 
-int qoim_canvas_sizecheck(qoim_canvas *c1, qoim_canvas *c2);
+int gfx_canvas_sizecheck(gfx_canvas *c1, gfx_canvas *c2);
 
-qoim_canvas *qoim_canvas_resize(qoim_canvas *in, int sizex, int sizey);
+gfx_canvas *gfx_canvas_resize(gfx_canvas *in, int sizex, int sizey);
 
-qoim_canvas *qoim_canvas_blur(qoim_canvas *in, float smalldiam);
+gfx_canvas *gfx_canvas_blur(gfx_canvas *in, float smalldiam);
 
-void qoim_canvas_mix(qoim_canvas *dst, qoim_canvas *src, float factor);
+void gfx_canvas_mix(gfx_canvas *dst, gfx_canvas *src, float factor);
 
-qoim_canvas *qoim_canvas_zoom(qoim_canvas *in, float x, float y);
+gfx_canvas *gfx_canvas_zoom(gfx_canvas *in, float x, float y);
 
-qoim_canvas *qoim_canvas_zoom_to_size(qoim_canvas *in, float x, float y);
+gfx_canvas *gfx_canvas_zoom_to_size(gfx_canvas *in, float x, float y);
 
-void qoim_canvas_saturate(qoim_canvas *in, float sat);
+void gfx_canvas_saturate(gfx_canvas *in, float sat);
 
-void qoim_canvas_sharpen(qoim_canvas *in, float smalldiam, float blend);
+void gfx_canvas_sharpen(gfx_canvas *in, float smalldiam, float blend);
 
-void qoim_canvas_gammawarp(qoim_canvas *in, float gamma);
+void gfx_canvas_gammawarp(gfx_canvas *in, float gamma);
 
-void qoim_canvas_softfocus(qoim_canvas *in, float smalldiam, float blend);
+void gfx_canvas_softfocus(gfx_canvas *in, float smalldiam, float blend);
 
-qoim_canvas *qoim_canvas_enlighten(qoim_canvas *in, float smalldiam, float param);
+gfx_canvas *gfx_canvas_enlighten(gfx_canvas *in, float smalldiam, float param);
 
-void qoim_canvas_expand(qoim_canvas *in, float min, float max);
+void gfx_canvas_expand(gfx_canvas *in, float min, float max);
 
-void qoim_canvas_perhist(qoim_canvas *c, float min, float max);
+void gfx_canvas_perhist(gfx_canvas *c, float min, float max);
 
-void qoim_canvas_scalergb(qoim_canvas *in, float scaler, float scaleg, float scaleb);
+void gfx_canvas_scalergb(gfx_canvas *in, float scaler, float scaleg, float scaleb);
 
-void qoim_canvas_noblack(qoim_canvas *c);
+void gfx_canvas_noblack(gfx_canvas *c);
 
-void qoim_canvas_chromablur(qoim_canvas *in, float smalldiam);
+void gfx_canvas_chromablur(gfx_canvas *in, float smalldiam);
 
-void qoim_canvas_addframe(qoim_canvas *in, int width, float r, float g, float b, float a);
+void gfx_canvas_addframe(gfx_canvas *in, int width, float r, float g, float b, float a);
 
-void qoim_canvas_roundcorners(qoim_canvas *in, float radius, float exp) ;
+void gfx_canvas_roundcorners(gfx_canvas *in, float radius, float exp) ;
 
-void qoim_canvas_softedge(qoim_canvas *c, float width);
+void gfx_canvas_softedge(gfx_canvas *c, float width);
 
 
 #ifdef __cplusplus
 }
 #endif
-#endif /* QOIMPROC_H */
+#endif /* IMGPROC_H */
 
 /* -----------------------------------------------------------------------------
 Implementation */
 
-#ifdef QOIMPROC_IMPLEMENTATION
+#ifdef IMGPROC_IMPLEMENTATION
 
 /* utils */
 
@@ -158,19 +158,19 @@ Implementation */
 #define DEFGAMMA        (2.2)
 #define DEFINVGAMMA     (1.0/2.2)
 
-float qoim_flerp(float f0, float f1, float p)
+float gfx_flerp(float f0, float f1, float p)
 {
     if(f0==f1)
         return f0;
     return ((f0*(1.0-p))+(f1*p));
 }
 
-int qoim_ilerp(int f0, int a0, int f1, int a1) 
+int gfx_ilerp(int f0, int a0, int f1, int a1) 
 {
     return ((f0)*(a0)+(f1)*(a1))>>8;
 }
 
-int qoim_ilerplimit(int v0, int a0, int v1, int a1)
+int gfx_ilerplimit(int v0, int a0, int v1, int a1)
 {     
     int pix = (v0*a0+v1*a1)>>8;
     if(pix<0) 
@@ -180,17 +180,17 @@ int qoim_ilerplimit(int v0, int a0, int v1, int a1)
     return pix;
 }
 
-qoim_canvas *qoim_canvas_fromqoi(const char *filename)
+gfx_canvas *gfx_canvas_fromqoi(const char *filename)
 {
     qoi_desc desc;
     void *pixels = qoi_read(filename, &desc, 0);
     int channels = desc.channels;
     int sizex = desc.width;
     int sizey = desc.height;
-    return qoim_canvas_new_withdata(sizex, sizey, pixels);
+    return gfx_canvas_new_withdata(sizex, sizey, pixels);
 }
 
-void qoim_canvas_toqoi(qoim_canvas *in, const char *filename)
+void gfx_canvas_toqoi(gfx_canvas *in, const char *filename)
 {
     qoi_desc desc;
     desc.width = in->sizex;
@@ -199,62 +199,62 @@ void qoim_canvas_toqoi(qoim_canvas *in, const char *filename)
     int encoded = qoi_write(filename, in->data, &desc);
 }
 
-qoim_canvas *qoim_canvas_frompng(const char *filename)
+gfx_canvas *gfx_canvas_frompng(const char *filename)
 {
     int sizex, sizey, n;
     unsigned char *data = stbi_load(filename, &sizex, &sizey, &n, 4);
     if(!data) {
-        fprintf(stderr, "qoim_canvas_frompng: error: problem reading %s\n", filename);
+        fprintf(stderr, "gfx_canvas_frompng: error: problem reading %s\n", filename);
         exit(1);
     }
-    return qoim_canvas_new_withdata(sizex, sizey, data);
+    return gfx_canvas_new_withdata(sizex, sizey, data);
 }
 
-void qoim_canvas_topng(qoim_canvas *in, const char *filename)
+void gfx_canvas_topng(gfx_canvas *in, const char *filename)
 {
     stbi_write_png(filename, in->sizex, in->sizey, 4, in->data, 4*in->sizex);
 }
 
-qoim_canvas *qoim_canvas_fromjpeg(const char *filename)
+gfx_canvas *gfx_canvas_fromjpeg(const char *filename)
 {
     int sizex, sizey, n;
     unsigned char *data = stbi_load(filename, &sizex, &sizey, &n, 4);
     if(!data) {
-        fprintf(stderr, "qoim_canvas_fromjpeg: error: problem reading %s\n", filename);
+        fprintf(stderr, "gfx_canvas_fromjpeg: error: problem reading %s\n", filename);
         exit(1);
     }
-    return qoim_canvas_new_withdata(sizex, sizey, data);
+    return gfx_canvas_new_withdata(sizex, sizey, data);
 }
 
-void qoim_canvas_tojpeg(qoim_canvas *in, const char *filename)
+void gfx_canvas_tojpeg(gfx_canvas *in, const char *filename)
 {
     stbi_write_jpg(filename, in->sizex, in->sizey, 4, in->data, 100);
 }
 
-qoim_canvas *qoim_canvas_clone(qoim_canvas *c)
+gfx_canvas *gfx_canvas_clone(gfx_canvas *c)
 {
-    qoim_canvas *cc = qoim_canvas_new(c->sizex, c->sizey);
+    gfx_canvas *cc = gfx_canvas_new(c->sizex, c->sizey);
     memcpy(cc->data, c->data, c->sizex*c->sizey*sizeof(unsigned int));
     return cc;
 }
 
-void qoim_canvas_swap(qoim_canvas *a, qoim_canvas *b)
+void gfx_canvas_swap(gfx_canvas *a, gfx_canvas *b)
 {
-    qoim_canvas temp;
+    gfx_canvas temp;
     temp = *a;
     *a = *b;
     *b = temp;
 }
 
-float qoim_canvas_diameter(qoim_canvas *in)
+float gfx_canvas_diameter(gfx_canvas *in)
 {
     return sqrt(in->sizex*in->sizex + in->sizey*in->sizey);
 }
 
-int qoim_canvas_sizecheck(qoim_canvas *c1, qoim_canvas *c2)
+int gfx_canvas_sizecheck(gfx_canvas *c1, gfx_canvas *c2)
 {
     if((c1->sizex != c2->sizex) || (c1->sizey != c2->sizey)) {
-        fprintf(stderr, "qoim_canvas_sizecheck failed!\n");
+        fprintf(stderr, "gfx_canvas_sizecheck failed!\n");
         fprintf(stderr, "can1: %d by %d\n", c1->sizex, c1->sizey);
         fprintf(stderr, "can2: %d by %d\n", c2->sizex, c2->sizey);
         return 0;
@@ -262,33 +262,33 @@ int qoim_canvas_sizecheck(qoim_canvas *c1, qoim_canvas *c2)
     return 1;
 }
 
-qoim_canvas *qoim_canvas_resize(qoim_canvas *in, int sizex, int sizey)
+gfx_canvas *gfx_canvas_resize(gfx_canvas *in, int sizex, int sizey)
 {
-    qoim_canvas *out = qoim_canvas_new(sizex, sizey);
+    gfx_canvas *out = gfx_canvas_new(sizex, sizey);
     stbir_resize_uint8((unsigned char *) in->data,  in->sizex,  in->sizey, 0,
                        (unsigned char *)out->data, out->sizex, out->sizey, 0, 4);
     return out;
 }
 
-qoim_canvas *qoim_canvas_blur(qoim_canvas *in, float smalldiam) 
+gfx_canvas *gfx_canvas_blur(gfx_canvas *in, float smalldiam) 
 {
-    float indiam = qoim_canvas_diameter(in);
+    float indiam = gfx_canvas_diameter(in);
     float scaledown = smalldiam/indiam;
     int smallsizex = round(scaledown*in->sizex);
     int smallsizey = round(scaledown*in->sizey);
-    qoim_canvas *small = qoim_canvas_resize(in, smallsizex, smallsizey); 
-    qoim_canvas *big = qoim_canvas_resize(small, in->sizex, in->sizey);
-    qoim_canvas_free(small);
+    gfx_canvas *small = gfx_canvas_resize(in, smallsizex, smallsizey); 
+    gfx_canvas *big = gfx_canvas_resize(small, in->sizex, in->sizey);
+    gfx_canvas_free(small);
     return big;
 }
 
-void qoim_canvas_mix(qoim_canvas *dst, qoim_canvas *src, float factor)
+void gfx_canvas_mix(gfx_canvas *dst, gfx_canvas *src, float factor)
 {
     int n;
     unsigned int *dptr, *sptr;
     int a0, a1, ia, pix;
 
-    if(!qoim_canvas_sizecheck(dst, src))
+    if(!gfx_canvas_sizecheck(dst, src))
         return;
     ia = round(256.0*factor);
     if(ia==0)
@@ -304,19 +304,19 @@ void qoim_canvas_mix(qoim_canvas *dst, qoim_canvas *src, float factor)
         }
     } else if((ia>0) && (ia<255)) {
         while(n--) {
-            *dptr = CPACK(qoim_ilerp(RVAL(dptr[0]), a0, RVAL(sptr[0]), a1), 
-                          qoim_ilerp(GVAL(dptr[0]), a0, GVAL(sptr[0]), a1), 
-                          qoim_ilerp(BVAL(dptr[0]), a0, BVAL(sptr[0]), a1), 
-                          qoim_ilerp(AVAL(dptr[0]), a0, AVAL(sptr[0]), a1)); 
+            *dptr = CPACK(gfx_ilerp(RVAL(dptr[0]), a0, RVAL(sptr[0]), a1), 
+                          gfx_ilerp(GVAL(dptr[0]), a0, GVAL(sptr[0]), a1), 
+                          gfx_ilerp(BVAL(dptr[0]), a0, BVAL(sptr[0]), a1), 
+                          gfx_ilerp(AVAL(dptr[0]), a0, AVAL(sptr[0]), a1)); 
             dptr++;
             sptr++;
         }
     } else {
         while(n--) {
-            *dptr = CPACK(qoim_ilerplimit(RVAL(dptr[0]), a0, RVAL(sptr[0]), a1), 
-                          qoim_ilerplimit(GVAL(dptr[0]), a0, GVAL(sptr[0]), a1), 
-                          qoim_ilerplimit(BVAL(dptr[0]), a0, BVAL(sptr[0]), a1), 
-                          qoim_ilerplimit(AVAL(dptr[0]), a0, AVAL(sptr[0]), a1));
+            *dptr = CPACK(gfx_ilerplimit(RVAL(dptr[0]), a0, RVAL(sptr[0]), a1), 
+                          gfx_ilerplimit(GVAL(dptr[0]), a0, GVAL(sptr[0]), a1), 
+                          gfx_ilerplimit(BVAL(dptr[0]), a0, BVAL(sptr[0]), a1), 
+                          gfx_ilerplimit(AVAL(dptr[0]), a0, AVAL(sptr[0]), a1));
             dptr++;
             sptr++;
         }
@@ -325,21 +325,21 @@ void qoim_canvas_mix(qoim_canvas *dst, qoim_canvas *src, float factor)
 
 /* zoom */
 
-qoim_canvas *qoim_canvas_zoom(qoim_canvas *in, float x, float y)
+gfx_canvas *gfx_canvas_zoom(gfx_canvas *in, float x, float y)
 {
-    return qoim_canvas_resize(in, round(x * in->sizex), round(y * in->sizey));
+    return gfx_canvas_resize(in, round(x * in->sizex), round(y * in->sizey));
 }
 
 /* zoom to size */
 
-qoim_canvas *qoim_canvas_zoom_to_size(qoim_canvas *in, float x, float y)
+gfx_canvas *gfx_canvas_zoom_to_size(gfx_canvas *in, float x, float y)
 {
-    return qoim_canvas_resize(in, x, y);
+    return gfx_canvas_resize(in, x, y);
 }
 
 /* saturate */
 
-void qoim_canvas_saturate(qoim_canvas *in, float sat)
+void gfx_canvas_saturate(gfx_canvas *in, float sat)
 {
     unsigned int *lptr = in->data;
     int n = in->sizex*in->sizey;
@@ -362,7 +362,7 @@ void qoim_canvas_saturate(qoim_canvas *in, float sat)
             int b = BVAL(*lptr);
             int a = AVAL(*lptr);
             int lum = ILUM(r, g, b);
-            *lptr++ = CPACK(qoim_ilerp(lum, a0, r, a1), qoim_ilerp(lum, a0, g, a1), qoim_ilerp(lum, a0, b, a1), a);
+            *lptr++ = CPACK(gfx_ilerp(lum, a0, r, a1), gfx_ilerp(lum, a0, g, a1), gfx_ilerp(lum, a0, b, a1), a);
         }
     } else {
         while(n--) {
@@ -371,23 +371,23 @@ void qoim_canvas_saturate(qoim_canvas *in, float sat)
             int b = BVAL(*lptr);
             int a = AVAL(*lptr);
             int lum = ILUM(r, g, b);
-            *lptr++ = CPACK(qoim_ilerplimit(lum, a0, r, a1), qoim_ilerplimit(lum, a0, g, a1), qoim_ilerplimit(lum, a0, b, a1), a);
+            *lptr++ = CPACK(gfx_ilerplimit(lum, a0, r, a1), gfx_ilerplimit(lum, a0, g, a1), gfx_ilerplimit(lum, a0, b, a1), a);
         }
     }
 }
 
 /* sharpen */
 
-void qoim_canvas_sharpen(qoim_canvas *in, float smalldiam, float blend)
+void gfx_canvas_sharpen(gfx_canvas *in, float smalldiam, float blend)
 {
-    qoim_canvas *blur = qoim_canvas_blur(in, smalldiam);
-    qoim_canvas_mix(in, blur, -blend);
-    qoim_canvas_free(blur);
+    gfx_canvas *blur = gfx_canvas_blur(in, smalldiam);
+    gfx_canvas_mix(in, blur, -blend);
+    gfx_canvas_free(blur);
 }
 
 /* gammawarp */
 
-void qoim_canvas_gammawarp(qoim_canvas *in, float gamma)
+void gfx_canvas_gammawarp(gfx_canvas *in, float gamma)
 {
     unsigned int *dptr = in->data;
     int n = in->sizex*in->sizey;
@@ -402,22 +402,22 @@ void qoim_canvas_gammawarp(qoim_canvas *in, float gamma)
 
 /* softfocus */
 
-void qoim_canvas_softfocus(qoim_canvas *in, float smalldiam, float blend)
+void gfx_canvas_softfocus(gfx_canvas *in, float smalldiam, float blend)
 {
-    qoim_canvas *temp = qoim_canvas_clone(in);
-    qoim_canvas_gammawarp(temp, DEFGAMMA);
-    qoim_canvas *blur = qoim_canvas_blur(temp, smalldiam);
-    qoim_canvas_free(temp);
-    qoim_canvas_gammawarp(blur, DEFINVGAMMA);
-    qoim_canvas_mix(in, blur, blend);
-    qoim_canvas_free(blur);
+    gfx_canvas *temp = gfx_canvas_clone(in);
+    gfx_canvas_gammawarp(temp, DEFGAMMA);
+    gfx_canvas *blur = gfx_canvas_blur(temp, smalldiam);
+    gfx_canvas_free(temp);
+    gfx_canvas_gammawarp(blur, DEFINVGAMMA);
+    gfx_canvas_mix(in, blur, blend);
+    gfx_canvas_free(blur);
 }
 
 /* enlighten */
 
-qoim_canvas *qoim_canvas_maxrgb(qoim_canvas *in)
+gfx_canvas *gfx_canvas_maxrgb(gfx_canvas *in)
 {
-    qoim_canvas *out = qoim_canvas_new(in->sizex, in->sizey);
+    gfx_canvas *out = gfx_canvas_new(in->sizex, in->sizey);
     unsigned int *iptr = in->data;
     unsigned int *optr = out->data;
     int n = in->sizex*in->sizey;
@@ -436,11 +436,11 @@ qoim_canvas *qoim_canvas_maxrgb(qoim_canvas *in)
     return out;
 }
 
-qoim_canvas *qoim_canvas_brighten(qoim_canvas *in, qoim_canvas *maxrgbblur, float param)
+gfx_canvas *gfx_canvas_brighten(gfx_canvas *in, gfx_canvas *maxrgbblur, float param)
 {
-    float illummin = 1.0/qoim_flerp(1.0, 10.0, param*param);
-    float illummax = 1.0/qoim_flerp(1.0, 1.111, param*param);
-    qoim_canvas *out = qoim_canvas_new(in->sizex, in->sizey);
+    float illummin = 1.0/gfx_flerp(1.0, 10.0, param*param);
+    float illummax = 1.0/gfx_flerp(1.0, 1.111, param*param);
+    gfx_canvas *out = gfx_canvas_new(in->sizex, in->sizey);
     unsigned int *iptr = in->data;
     unsigned int *bptr = maxrgbblur->data;
     unsigned int *optr = out->data;
@@ -471,24 +471,24 @@ qoim_canvas *qoim_canvas_brighten(qoim_canvas *in, qoim_canvas *maxrgbblur, floa
     return out;
 }
 
-qoim_canvas *qoim_canvas_enlighten(qoim_canvas *in, float smalldiam, float param)
+gfx_canvas *gfx_canvas_enlighten(gfx_canvas *in, float smalldiam, float param)
 {
     // make a b/w image that has max of [r, g, b] of the input
-    qoim_canvas *maxrgb = qoim_canvas_maxrgb(in);
+    gfx_canvas *maxrgb = gfx_canvas_maxrgb(in);
 
-    qoim_canvas *maxrgbblur = qoim_canvas_blur(maxrgb, smalldiam);
-    qoim_canvas_free(maxrgb);
+    gfx_canvas *maxrgbblur = gfx_canvas_blur(maxrgb, smalldiam);
+    gfx_canvas_free(maxrgb);
 
     // divide the input image by maxrgbblur to brighten the image
     // param is in the range 0.0 .. 1.0 and normally controlled by a slider.
-    qoim_canvas *ret = qoim_canvas_brighten(in, maxrgbblur, param);
-    qoim_canvas_free(maxrgbblur);
+    gfx_canvas *ret = gfx_canvas_brighten(in, maxrgbblur, param);
+    gfx_canvas_free(maxrgbblur);
     return ret;
 }
 
 /* expand */
 
-void qoim_canvas_apply_tab(qoim_canvas *in, unsigned char *tab)
+void gfx_canvas_apply_tab(gfx_canvas *in, unsigned char *tab)
 {
     unsigned int *lptr = in->data;
     int n = in->sizex*in->sizey;
@@ -499,7 +499,7 @@ void qoim_canvas_apply_tab(qoim_canvas *in, unsigned char *tab)
     }
 }
 
-void qoim_canvas_expand(qoim_canvas *in, float min, float max)
+void gfx_canvas_expand(gfx_canvas *in, float min, float max)
 {
     unsigned char tab[256];
 
@@ -512,12 +512,12 @@ void qoim_canvas_expand(qoim_canvas *in, float min, float max)
         if(val<0) val = 0;
         tab[i] = val;
     }
-    qoim_canvas_apply_tab(in, tab);
+    gfx_canvas_apply_tab(in, tab);
 }
 
 /* perhist */
 
-typedef struct qoim_hist {
+typedef struct gfx_hist {
     int dirty;
     double count[256];
     double dist[256];
@@ -525,7 +525,7 @@ typedef struct qoim_hist {
     double max, total;
     int maxpos;
     int maxbright;
-} qoim_hist;
+} gfx_hist;
 
 #define CHAN_R          (1)
 #define CHAN_G          (2)
@@ -540,7 +540,7 @@ typedef struct qoim_hist {
 
 #define mybzero(a,b)      memset((a),0,(b))
 
-void qoim_histclear(qoim_hist *h)
+void gfx_histclear(gfx_hist *h)
 {
     mybzero(h->count, 256*sizeof(double));
     mybzero(h->dist, 256*sizeof(double));
@@ -554,21 +554,21 @@ void qoim_histclear(qoim_hist *h)
     h->dirty = 1;
 }
 
-qoim_hist *qoim_histnew(void)
+gfx_hist *gfx_histnew(void)
 {
-    qoim_hist *h = (qoim_hist *)malloc(sizeof(qoim_hist));
-    qoim_histclear(h);
+    gfx_hist *h = (gfx_hist *)malloc(sizeof(gfx_hist));
+    gfx_histclear(h);
     return h;
 }
 
-void qoim_histfree(qoim_hist *h)
+void gfx_histfree(gfx_hist *h)
 {
     if(!h)
         return;
     free(h);
 }
 
-void qoim_histcalc(qoim_hist *h)
+void gfx_histcalc(gfx_hist *h)
 {
     if(h->dirty) {              /* calc max, maxpos and total */
         double max = 0.0;
@@ -619,9 +619,9 @@ void qoim_histcalc(qoim_hist *h)
     }
 }
 
-qoim_hist *qoim_canvas_hist(qoim_canvas *c, int chan)
+gfx_hist *gfx_canvas_hist(gfx_canvas *c, int chan)
 {
-    qoim_hist *h = qoim_histnew();
+    gfx_hist *h = gfx_histnew();
     unsigned int *lptr = c->data;
     int n = c->sizex * c->sizey;
     double *cptr = h->count;
@@ -661,7 +661,7 @@ qoim_hist *qoim_canvas_hist(qoim_canvas *c, int chan)
 #define DELPOW2(del)    ((del)*(del))
 #define DELPOW1(del)    (del)
 
-double clamperr(qoim_hist *h, int pos, int end)
+double clamperr(gfx_hist *h, int pos, int end)
 {
     double err, del;
     int i;
@@ -681,14 +681,14 @@ double clamperr(qoim_hist *h, int pos, int end)
     return pow(err/h->total, 1.0/2.0);
 }
 
-void getminmax(qoim_hist *hr, qoim_hist *hg, qoim_hist *hb, float min, float max, int *imin, int *imax)
+void getminmax(gfx_hist *hr, gfx_hist *hg, gfx_hist *hb, float min, float max, int *imin, int *imax)
 {
     double thresh, err;
     int i;
 
-    qoim_histcalc(hr);
-    qoim_histcalc(hg);
-    qoim_histcalc(hb);
+    gfx_histcalc(hr);
+    gfx_histcalc(hg);
+    gfx_histcalc(hb);
     thresh = min;
     if(thresh<EPSILON) {
         *imin = 0;
@@ -713,17 +713,17 @@ void getminmax(qoim_hist *hr, qoim_hist *hg, qoim_hist *hb, float min, float max
     }
 }
 
-void qoim_canvas_perhistvals(qoim_canvas *c, float min, float max, float *emin, float *emax)
+void gfx_canvas_perhistvals(gfx_canvas *c, float min, float max, float *emin, float *emax)
 {
     int imin, imax;
 
-    qoim_hist *hr = qoim_canvas_hist(c, CHAN_R);
-    qoim_hist *hg = qoim_canvas_hist(c, CHAN_G);
-    qoim_hist *hb = qoim_canvas_hist(c, CHAN_B);
+    gfx_hist *hr = gfx_canvas_hist(c, CHAN_R);
+    gfx_hist *hg = gfx_canvas_hist(c, CHAN_G);
+    gfx_hist *hb = gfx_canvas_hist(c, CHAN_B);
     getminmax(hr, hg, hb, min, max, &imin, &imax);
-    qoim_histfree(hr);
-    qoim_histfree(hg);
-    qoim_histfree(hb);
+    gfx_histfree(hr);
+    gfx_histfree(hg);
+    gfx_histfree(hb);
 
     float maxlo = 0.2;
     float minhi = 0.4;
@@ -746,16 +746,16 @@ void qoim_canvas_perhistvals(qoim_canvas *c, float min, float max, float *emin, 
     *emax = imax/255.0;
 }
 
-void qoim_canvas_perhist(qoim_canvas *c, float min, float max)
+void gfx_canvas_perhist(gfx_canvas *c, float min, float max)
 {
     float emin, emax;
-    qoim_canvas_perhistvals(c, min, max, &emin, &emax);
-    qoim_canvas_expand(c, emin, emax);
+    gfx_canvas_perhistvals(c, min, max, &emin, &emax);
+    gfx_canvas_expand(c, emin, emax);
 }
 
 /* scalergb */
 
-void qoim_canvas_scalergb(qoim_canvas *in, float scaler, float scaleg, float scaleb)
+void gfx_canvas_scalergb(gfx_canvas *in, float scaler, float scaleg, float scaleb)
 {
     unsigned int *dptr = in->data;
     int n = in->sizex*in->sizey;
@@ -792,7 +792,7 @@ void noblack(int *r, int *g, int *b)
     }
 }
 
-void qoim_canvas_noblack(qoim_canvas *c)
+void gfx_canvas_noblack(gfx_canvas *c)
 {
     unsigned int *lptr = c->data;
     int n = c->sizex*c->sizey;
@@ -816,11 +816,11 @@ static short *BLUMTAB;
 
 #define ILUMLIN(r,g,b)          (TOGAMTAB[RLUMTAB[(r)]+GLUMTAB[(g)]+BLUMTAB[(b)]])
 
-void qoim_canvas_setlum(qoim_canvas *c, qoim_canvas *l)
+void gfx_canvas_setlum(gfx_canvas *c, gfx_canvas *l)
 {
     float sc;
 
-    if(!qoim_canvas_sizecheck(c, l))
+    if(!gfx_canvas_sizecheck(c, l))
         return;
     if(!TOGAMTAB) {
         TOGAMTAB = (unsigned char *)malloc(LINSTEPS*sizeof(char));
@@ -873,38 +873,38 @@ void qoim_canvas_setlum(qoim_canvas *c, qoim_canvas *l)
     }
 }
 
-void qoim_canvas_chromablur(qoim_canvas *in, float smalldiam)
+void gfx_canvas_chromablur(gfx_canvas *in, float smalldiam)
 {
-    qoim_canvas *lum = qoim_canvas_clone(in);
-    qoim_canvas_saturate(lum, 0.0);
-    qoim_canvas *temp = qoim_canvas_clone(in);
-    qoim_canvas_noblack(temp);
-    qoim_canvas *blur = qoim_canvas_blur(temp, smalldiam);
-    qoim_canvas_free(temp);
-    qoim_canvas_setlum(blur, lum);
-    qoim_canvas_free(lum);
-    qoim_canvas_swap(blur, in);
-    qoim_canvas_free(blur);
+    gfx_canvas *lum = gfx_canvas_clone(in);
+    gfx_canvas_saturate(lum, 0.0);
+    gfx_canvas *temp = gfx_canvas_clone(in);
+    gfx_canvas_noblack(temp);
+    gfx_canvas *blur = gfx_canvas_blur(temp, smalldiam);
+    gfx_canvas_free(temp);
+    gfx_canvas_setlum(blur, lum);
+    gfx_canvas_free(lum);
+    gfx_canvas_swap(blur, in);
+    gfx_canvas_free(blur);
 }
 
 /* canframe */
 
-typedef struct qoimRect {
+typedef struct gfx_Rect {
     int originx;
     int originy;
     int sizex;
     int sizey;
-} qoimRect;
+} gfx_Rect;
 
-qoimRect qoimRectOffset(qoimRect r, int offsetx, int offsety)
+gfx_Rect gfx_RectOffset(gfx_Rect r, int offsetx, int offsety)
 {
     r.originx += offsetx;
     r.originy += offsety;
     return r;
 }
 
-qoimRect qoimRectMake(int origx, int origy, int sizex, int sizey) {
-    qoimRect r;
+gfx_Rect gfx_RectMake(int origx, int origy, int sizex, int sizey) {
+    gfx_Rect r;
     r.originx = origx;
     r.originy = origy;
     r.sizex = sizex;
@@ -912,15 +912,15 @@ qoimRect qoimRectMake(int origx, int origy, int sizex, int sizey) {
     return r;
 }
 
-int qoimRectMaxX(qoimRect r) {
+int gfx_RectMaxX(gfx_Rect r) {
     return r.originx + r.sizex;
 }
 
-int qoimRectMaxY(qoimRect r) {
+int gfx_RectMaxY(gfx_Rect r) {
     return r.originy + r.sizey;
 }
 
-qoimRect qoimRectInset(qoimRect r, int dist)
+gfx_Rect gfx_RectInset(gfx_Rect r, int dist)
 {
     if(r.sizex<dist*2)
         dist = r.sizex/2;
@@ -933,12 +933,12 @@ qoimRect qoimRectInset(qoimRect r, int dist)
     return r;
 }
 
-qoimRect qoim_canvas_Rect(qoim_canvas *c)
+gfx_Rect gfx_canvas_Rect(gfx_canvas *c)
 {
-    return qoimRectMake(0, 0, c->sizex, c->sizey);
+    return gfx_RectMake(0, 0, c->sizex, c->sizey);
 }
 
-float qoimRectDist(qoimRect r, float posx, float posy, float exp)
+float gfx_RectDist(gfx_Rect r, float posx, float posy, float exp)
 {
     float dx = 0;
     if(posx < r.originx)
@@ -963,7 +963,7 @@ float qoimRectDist(qoimRect r, float posx, float posy, float exp)
 
 #define XY_POS_PTR(c, x, y) ((c)->data+(((y)*c->sizex)+(x)))
 
-void qoim_canvas_setrect(qoim_canvas *c, qoimRect rect, float r, float g, float b, float a) 
+void gfx_canvas_setrect(gfx_canvas *c, gfx_Rect rect, float r, float g, float b, float a) 
 {
     unsigned int *dptr = c->data;
     int ir = r*255.0;
@@ -978,15 +978,15 @@ void qoim_canvas_setrect(qoim_canvas *c, qoimRect rect, float r, float g, float 
     }
 }
 
-void qoim_canvas_setframe(qoim_canvas *c, int sizex, int sizey, qoimRect irect, float r, float g, float b, float a)
+void gfx_canvas_setframe(gfx_canvas *c, int sizex, int sizey, gfx_Rect irect, float r, float g, float b, float a)
 {
-    qoim_canvas_setrect(c, qoimRectMake(0, 0, irect.originx, sizey), r, g, b, a);
-    qoim_canvas_setrect(c, qoimRectMake(sizex-irect.sizex, 0, irect.sizex, sizey), r, g, b, a);
-    qoim_canvas_setrect(c, qoimRectMake(irect.originx, qoimRectMaxY(irect), irect.sizex, sizey-irect.sizey), r, g, b, a);
-    qoim_canvas_setrect(c, qoimRectMake(irect.originx, 0, irect.sizex, irect.originy), r, g, b, a);
+    gfx_canvas_setrect(c, gfx_RectMake(0, 0, irect.originx, sizey), r, g, b, a);
+    gfx_canvas_setrect(c, gfx_RectMake(sizex-irect.sizex, 0, irect.sizex, sizey), r, g, b, a);
+    gfx_canvas_setrect(c, gfx_RectMake(irect.originx, gfx_RectMaxY(irect), irect.sizex, sizey-irect.sizey), r, g, b, a);
+    gfx_canvas_setrect(c, gfx_RectMake(irect.originx, 0, irect.sizex, irect.originy), r, g, b, a);
 }
 
-void qoim_canvas_copy_offset(qoim_canvas *scan, qoim_canvas *dcan, int offsetx, int offsety)
+void gfx_canvas_copy_offset(gfx_canvas *scan, gfx_canvas *dcan, int offsetx, int offsety)
 {
     unsigned int *sptr = scan->data;
     unsigned int *dptr = dcan->data;
@@ -998,33 +998,33 @@ void qoim_canvas_copy_offset(qoim_canvas *scan, qoim_canvas *dcan, int offsetx, 
     }
 }
 
-void qoim_canvas_addframe(qoim_canvas *in, int width, float r, float g, float b, float a)
+void gfx_canvas_addframe(gfx_canvas *in, int width, float r, float g, float b, float a)
 {
     if(width<1)
         return;
     int sizex = in->sizex;
     int sizey = in->sizey;
-    qoim_canvas *f = qoim_canvas_new(sizex+2*width, sizey+2*width);
+    gfx_canvas *f = gfx_canvas_new(sizex+2*width, sizey+2*width);
 
     /* set 4 rects to make the frame */
 
-    qoim_canvas_setframe(f, f->sizex, f->sizey, qoimRectOffset(qoim_canvas_Rect(in), width, width), r, g, b, a);
-    qoim_canvas_copy_offset(in, f, width, width);
-    qoim_canvas_swap(f, in);
-    qoim_canvas_free(f);
+    gfx_canvas_setframe(f, f->sizex, f->sizey, gfx_RectOffset(gfx_canvas_Rect(in), width, width), r, g, b, a);
+    gfx_canvas_copy_offset(in, f, width, width);
+    gfx_canvas_swap(f, in);
+    gfx_canvas_free(f);
 }
 
 /* roundcorners */
 
-void qoim_canvas_roundcorners(qoim_canvas *in, float radius, float exp) 
+void gfx_canvas_roundcorners(gfx_canvas *in, float radius, float exp) 
 {
-    qoimRect inside = qoimRectInset(qoim_canvas_Rect(in), radius);
+    gfx_Rect inside = gfx_RectInset(gfx_canvas_Rect(in), radius);
     unsigned int *dptr = in->data;
     for(int y=0; y<in->sizey; y++) {
         float posy = y+0.5;
         for(int x=0; x<in->sizex; x++) {
             float posx = x+0.5;
-            float dist = qoimRectDist(inside, posx, posy, exp);
+            float dist = gfx_RectDist(inside, posx, posy, exp);
             float alpha = radius-dist;
             if(alpha > 1.0) alpha = 1.0;
             if(alpha < 0.0) alpha = 0.0;
@@ -1039,7 +1039,7 @@ void qoim_canvas_roundcorners(qoim_canvas *in, float radius, float exp)
 
 /* softedge */
 
-static float qoim_smoothstep(float x, float min, float max) 
+static float gfx_smoothstep(float x, float min, float max) 
 {
     if (x <= min) return 0;
     if (x >= max) return 1;
@@ -1047,27 +1047,36 @@ static float qoim_smoothstep(float x, float min, float max)
     return x * x * (3 - 2 * x);
 }
 
-static float *qoim_softweights(float width, int n)
+static float *gfx_softweights(float width, int n)
 {
     float *buf = (float *)malloc(n*sizeof(float));
     float *w = buf;
+    float max = 0.0;
     for(int x=0; x<n; x++) {
         float p = x+0.5;
-        *w++ = qoim_smoothstep(x, 0.0, width)  * qoim_smoothstep(n-x, 0.0, width);
+        float val = gfx_smoothstep(p, 0.0, width) * gfx_smoothstep(n-p, 0.0, width);
+        *w++ = val;
+        if(max < val)
+            max = val;
+    }
+    w = buf;
+    for(int x=0; x<n; x++) {
+        *w = *w/max;
+        w++;
     }
     return buf;
 }
 
-void qoim_canvas_softedge(qoim_canvas *c, float width)
+void gfx_canvas_softedge(gfx_canvas *c, float width)
 {
     int sizex = c->sizex;
     int sizey = c->sizey;
-    float *wx = qoim_softweights(width, sizex);
-    float *wy = qoim_softweights(width, sizey);
+    float *wx = gfx_softweights(width, sizex);
+    float *wy = gfx_softweights(width, sizey);
     unsigned int *dptr = c->data;
     for(int y=0; y<sizey; y++) {
         for(int x=0; x<sizex; x++) {
-            float alpha = wx[x]*wy[y];
+            float alpha = wx[x] * wy[y];
             int r = alpha*RVAL(*dptr);
             int g = alpha*GVAL(*dptr);
             int b = alpha*BVAL(*dptr);
@@ -1079,4 +1088,4 @@ void qoim_canvas_softedge(qoim_canvas *c, float width)
     free(wy);
 }
 
-#endif /* QOIMPROC_IMPLEMENTATION */
+#endif /* IMGPROC_IMPLEMENTATION */

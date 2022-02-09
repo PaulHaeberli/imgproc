@@ -1,4 +1,3 @@
-
 all: qoimutil imgproc
 
 qoimutil: qoimutil.c
@@ -14,9 +13,11 @@ clean:
 	mkdir tmp
 
 test:
+	./imgproc testimages/INPUT070.png tmp/PROC.png saturate 1.2 roundcorners 0.1 3.0
+	open tmp/PROC.png
+
+testqoim:
 	./qoimutil -toqoim testimages/* tmp/IN.qoim
-	./qoimutil -print tmp/IN.qoim 
-	./qoimutil -topng tmp/IN.qoim tmp/TEST
 	./imgproc tmp/IN.qoim tmp/PROC.qoim saturate 1.5 softedge 0.1
 	./qoimutil -topng tmp/PROC.qoim tmp/PROC
-	open tmp/TEST000.png tmp/PROC000.png tmp/TEST002.png tmp/PROC002.png tmp/TEST004.png tmp/PROC004.png
+	open tmp/PROC000.png tmp/PROC002.png tmp/PROC004.png
