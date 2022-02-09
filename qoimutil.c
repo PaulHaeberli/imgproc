@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "math.h"
+#include "unistd.h"
 #include <sys/time.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -10,18 +11,6 @@
 #include "qoi.h"
 #define QOIM_IMPLEMENTATION
 #include "qoim.h"
-
-#define SHIFT_R         (0)
-#define SHIFT_G         (8)
-#define SHIFT_B         (16)
-#define SHIFT_A         (24)
-
-#define RVAL(l)         ((int)(((l)>>SHIFT_R)&0xff))
-#define GVAL(l)         ((int)(((l)>>SHIFT_G)&0xff))
-#define BVAL(l)         ((int)(((l)>>SHIFT_B)&0xff))
-#define AVAL(l)         ((int)(((l)>>SHIFT_A)&0xff))
-
-#define CPACK(r, g, b, a)  (((r)<<SHIFT_R) | ((g)<<SHIFT_G) | ((b)<<SHIFT_B) | ((a)<<SHIFT_A))
 
 // support for reading and writing png images for testing
 
@@ -43,15 +32,53 @@ void qoim_canvas_topng(qoim_canvas *in, const char *filename)
 
 // test program follows
 
+void qoim_trim(qoim *qm_in, qoim *qm_out, int frame0, int frame1)
+{
+    int nframes = qoim_getnframes(qm_in);
+    if(nframes == 0)
+	return;
+    if(frame0<0) frame0 = 0;
+    if(frame1<0) frame1 = 0;
+    if(frame0>=nframes) frame0 = nframes-1;
+    if(frame1>=nframes) frame0 = nframes-1;
+    if(frame1<frame0) {
+	int temp = frame1; int frame1 = frame0; int frame0 = temp;
+    }
+    for(int frameno = 0; frameno<nframes; frameno++) {
+	if((frameno>=frame0) && (frameno<=frame1)) {
+	    int usec;
+            qoim_canvas *c = qoim_getframe(qm_in, frameno, &usec);
+            qoim_putframe(qm_out, c, usec);
+	    qoim_canvas_free(c);
+	}
+    }
+}
+
+static int firsted = 0;
+
+void qoim_randseg(qoim *qm_in, qoim *qm_out, int nframes)
+{
+    int shift = qoim_getnframes(qm_in)-nframes;
+    if(!firsted) {
+	srandom(getpid());
+	firsted = 1;
+    }
+    int offset = random()%shift;
+    int frame0 = offset;
+    int frame1 = offset+nframes-1;
+    qoim_trim(qm_in, qm_out, frame0, frame1);
+}
+
 #define DEFAULT_FRAMETIME       ((1000*1000)/30.0)
 
 int main(int argc, char **argv) 
 { 
     if(argc<3) {
-        fprintf(stderr, "\nusage: qoimutil -toqoim 00.png 01.png 02.png test.qoim\n\n");
-        fprintf(stderr, "usage: qoimutil -topng test.qoim outfamily\n\n");
-        fprintf(stderr, "usage: qoimutil -print test.qoim\n\n");
-        fprintf(stderr, "usage: qoimutil -benchmark test.qoim\n\n");
+        fprintf(stderr, "\nusage: qoimutil -toqoim 00.png 01.png 02.png out.qoim\n\n");
+        fprintf(stderr, "usage: qoimutil -topng in.qoim outfamily\n\n");
+        fprintf(stderr, "usage: qoimutil -print in.qoim\n\n");
+        fprintf(stderr, "usage: qoimutil -trim in.qoim out.qoim startframe endframe\n\n");
+        fprintf(stderr, "usage: qoimutil -benchmark in.qoim\n\n");
         exit(1);
     }
     if(strcmp(argv[1], "-toqoim") == 0) {
@@ -79,6 +106,18 @@ int main(int argc, char **argv)
         qoim *qm = qoim_open(argv[2], "r");
         qoim_print(qm, "test");
         qoim_close(qm);
+    } else if(strcmp(argv[1], "-trim") == 0) {
+	qoim *qm_in = qoim_open(argv[1], "r");
+	qoim *qm_out = qoim_open(argv[2], "w");
+	qoim_trim(qm_in, qm_out, atoi(argv[3]), atoi(argv[4]));
+	qoim_close(qm_out);
+	qoim_close(qm_in);
+    } else if(strcmp(argv[1], "-randseg") == 0) {
+	qoim *qm_in = qoim_open(argv[2], "r");
+	qoim *qm_out = qoim_open(argv[3], "w");
+	qoim_randseg(qm_in, qm_out, atoi(argv[4]));
+	qoim_close(qm_out);
+	qoim_close(qm_in);
     } else if(strcmp(argv[1], "-benchmark") == 0) {
         qoim_readbenchmark(argv[2]);
     } else {

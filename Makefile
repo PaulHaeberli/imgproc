@@ -10,14 +10,13 @@ imgproc: imgproc.c
 clean:
 	rm -f qoimutil
 	rm -f imgproc
-	rm -f test.qoim
-	rm -f proc.qoim
-	-rm -f TEST*.png
-	-rm -f PROC*.png
+	rm -fr tmp
+	mkdir tmp
 
 test:
-	./qoimutil -toqoim testimages/* test.qoim
-	./qoimutil -topng test.qoim TEST
-	./imgproc test.qoim proc.qoim saturate 1.5 softedge 0.1
-	./qoimutil -topng proc.qoim PROC
-	open TEST000.png PROC000.png
+	./qoimutil -toqoim testimages/* tmp/IN.qoim
+	./qoimutil -print tmp/IN.qoim 
+	./qoimutil -topng tmp/IN.qoim tmp/TEST
+	./imgproc tmp/IN.qoim tmp/PROC.qoim saturate 1.5 softedge 0.1
+	./qoimutil -topng tmp/PROC.qoim tmp/PROC
+	open tmp/TEST000.png tmp/PROC000.png tmp/TEST002.png tmp/PROC002.png tmp/TEST004.png tmp/PROC004.png
