@@ -179,7 +179,7 @@ void qoim_readbenchmark(const char *filename);
 #ifdef __cplusplus
 }
 #endif
-#endif /* QOI_H */
+#endif /* QOIM_H */
 
 
 /* -----------------------------------------------------------------------------

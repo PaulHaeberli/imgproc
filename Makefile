@@ -18,7 +18,6 @@ clean:
 test:
 	./qoimutil -toqoim testimages/* test.qoim
 	./qoimutil -topng test.qoim TEST
-	#./imgproc test.qoim proc.qoim saturate 1.5 softedge 0.1
-	./imgproc test.qoim proc.qoim frame 0.5 1.0 1.0 1.0 0.5
+	./imgproc test.qoim proc.qoim saturate 1.5 softedge 0.1
 	./qoimutil -topng proc.qoim PROC
 	open TEST000.png PROC000.png
