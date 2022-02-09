@@ -5,7 +5,7 @@ This uses the [QOI image format](https://github.com/phoboslab/qoi) to read and w
 
 This also uses the [QOImovie](https://github.com/PaulHaeberli/QOImovie) to read and write losslessly compressed image sequences.
 
-to make
+to make 
     
     % make 
     
