@@ -2,14 +2,18 @@ all: qomutil imgproc
 
 qomutil: qomutil.c
 	cc qomutil.c -o qomutil
-	
+
 imgproc: imgproc.c
 	cc imgproc.c -o imgproc
 
+lib.o: lib.c
+	cc -c lib.c
+	
 clean:
 	rm -f qomutil
 	rm -f imgproc
 	rm -fr tmp
+	rm -fr lib.o
 	mkdir tmp
 
 test:
