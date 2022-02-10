@@ -19,3 +19,4 @@ test:
 	./imgproc tmp/IN.qom tmp/PROC.qom saturate 1.5 softedge 0.1
 	./qomutil -topng tmp/PROC.qom tmp/PROC
 	open tmp/PROC0000.png tmp/PROC0002.png tmp/PROC0004.png
+
