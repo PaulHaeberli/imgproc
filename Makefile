@@ -19,5 +19,5 @@ test:
 testqom:
 	./qomutil -toqom testimages/* tmp/IN.qom
 	./imgproc tmp/IN.qom tmp/PROC.qom saturate 1.5 softedge 0.1
-	./qomutil -topng tmp/PROC.qom tmp/PROC
+	./qomutil -topng tmp/PROC.qom tmp/PROC*04.png
 	open tmp/PROC000.png tmp/PROC002.png tmp/PROC004.png
