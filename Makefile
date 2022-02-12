@@ -25,3 +25,7 @@ test:
 	./qomutil -topng tmp/PROC.qom tmp/PROC
 	open tmp/PROC0000.png tmp/PROC0002.png tmp/PROC0004.png
 
+bench:
+	./qomutil -print tmp/IN.qom
+	./qomutil -benchmark tmp/IN.qom
+
